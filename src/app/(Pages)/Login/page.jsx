@@ -1,7 +1,7 @@
 "use client";
 
-import React from "react";
-import { Container, ContainerIntern, Form, FormGroup, Label, Input, ErrorBox, VideoBg, VideoBgColor, Title, Wrapper, Text, TextLink, TextLink2, Wrapper2, RememberPass, Text2 } from "./styles";
+import React, { useState } from "react";
+import { Container, ContainerIntern, Form, FormGroup, Label, Input, ErrorBox, VideoBg, VideoBgColor, Title, Wrapper, Text, TextLink, TextLink2, Wrapper2, RememberPass, Text2, TextRsponse } from "./styles";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -24,6 +24,10 @@ const loginSchema = yup.object({
 
 
 export default function Login() {
+
+  const [responseData, setResponseData] = useState(null);
+
+
   const router = useRouter()
 
 
@@ -43,10 +47,27 @@ export default function Login() {
   const onSubmit = async (data) => {
     
     const response = await req(data)
-    localStorage.setItem("token", response)
+        
+
+    if (response.status == 200) {
+      
+      localStorage.setItem("token", response.data)
+      router.push("/")
+    } else if (response.status === 409) {
+      
+      setResponseData("Realize a autenticação no email cadastrado")
+    }
+    else if (response.status === 401) {
+      
+      setResponseData("Usuário ou senha inválidos")
+    }
+    else {
+      setResponseData("Erro no servidor")
+
+    }
     
     reset();
-    router.push("/")
+    
 
   };
 
@@ -56,11 +77,10 @@ export default function Login() {
 const req = async (body) => {
   try {
     const response = await api.post(`/login/autentication` , body);
-    return response.data;
+    return response;
   } catch (error) {
-    console.error("Erro na requisição:", error);
-    alert("Erro na requisição:", error.message);
-    return [];
+       
+    return error.response;
   }
   };
   
@@ -141,6 +161,12 @@ render={({ field }) => (
           <Link href={`/CreateAccount`}>
               <TextLink>Criar nova conta</TextLink>
           </Link>
+          {responseData ?
+            (<pre>
+              <TextRsponse>
+                {responseData}
+              </TextRsponse>
+              </pre>) : (<p></p>)}
         </Form>
       </ContainerIntern>
     </Container>

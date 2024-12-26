@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import {
   Container,
   ContainerIntern,
@@ -15,6 +15,7 @@ import {
   Wrapper,
   Text,
   TextLink,
+  TextRsponse,
 } from "./styles";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -42,6 +43,8 @@ const loginSchema = yup
 
 export default function CreateAccount() {
   const router = useRouter();
+  const [responseData, setResponseData] = useState(null);
+  
 
   const {
     control,
@@ -73,24 +76,33 @@ export default function CreateAccount() {
     data.lastEmail = data.email
 
     
-    const response = await req(data)
+    const response = await req(data)     
     
-    
+    if (response.status === 200) {
+      
+      setResponseData("Cadastro realizado com sucesso")
+      reset();
+    } else if (response.status === 409) {
+      setResponseData("Usuário ou email já existem, tente novamente")
+      reset();
 
-    alert(response);
-    reset();
-    router.push("/Login");
+    }
+    else {
+      setResponseData("Erro no servidor")
+      reset();
+
+    }
+    
   };
 
   // Função para realizar a requisição ao backend
   const req = async (body) => {
     try {
       const response = await api.post(`/login/create`, body);
-      return response.data;
+      return response;
     } catch (error) {
-      console.error("Erro na requisição:", error);
-      alert("Erro na requisição:", error.message);
-      return [];
+       
+      return error.response;
     }
   };
 
@@ -274,6 +286,12 @@ export default function CreateAccount() {
           <Link href={`/Login`}>
             <TextLink>Fazer Login</TextLink>
           </Link>
+          {responseData ?
+                      (<pre>
+                        <TextRsponse>
+                          {responseData}
+                        </TextRsponse>
+                        </pre>) : (<p></p>)}
         </Form>
       </ContainerIntern>
     </Container>

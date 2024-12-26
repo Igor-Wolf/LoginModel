@@ -1,7 +1,7 @@
 "use client";
 
-import React from "react";
-import { Container, ContainerIntern, Form, FormGroup, Label, Input, ErrorBox, VideoBg, VideoBgColor, Title, Wrapper, Text, TextLink } from "./styles";
+import React, { useState } from "react";
+import { Container, ContainerIntern, Form, FormGroup, Label, Input, ErrorBox, VideoBg, VideoBgColor, Title, Wrapper, Text, TextLink, TextRsponse } from "./styles";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -25,6 +25,8 @@ const loginSchema = yup.object({
 
 export default function ForgotPassword() {
   const router = useRouter()
+    const [responseData, setResponseData] = useState(null);
+  
 
 
   const {
@@ -44,6 +46,24 @@ export default function ForgotPassword() {
     
     const response = await req(data)
       
+
+    if (response.status === 200) {
+
+      setResponseData("Email de validação enviado")
+
+      
+    } else if (response.status === 204) {
+
+      setResponseData("Email inválido")
+
+      
+    } else {
+
+      setResponseData("Erro no servidor")
+
+      
+    }
+
     reset();
     
 
@@ -55,11 +75,10 @@ export default function ForgotPassword() {
   const req = async (body) => {
   try {
     const response = await api.get(`/login/forgotPassword/${encodeURIComponent(body.email)}`);
-    return response.data;
+    return response;
   } catch (error) {
-    console.error("Erro na requisição:", error);
-    alert("Erro na requisição:", error.message);
-    return [];
+    
+    return error.response;
   }
   };
   
@@ -99,6 +118,12 @@ render={({ field }) => (
           <Link href={`/Login`}>
               <TextLink>Login</TextLink>
           </Link>
+          {responseData ?
+                      (<pre>
+                        <TextRsponse>
+                          {responseData}
+                        </TextRsponse>
+                        </pre>) : (<p></p>)}
         </Form>
       </ContainerIntern>
     </Container>

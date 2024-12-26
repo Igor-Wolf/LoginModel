@@ -93,8 +93,7 @@ export default function EditAccount() {
           router.push("/Login");
         }
       } catch (error) {
-        console.error("Erro na requisição:", error);
-        alert("Erro na requisição:", error.message);
+        return error.response
       }
     };
 

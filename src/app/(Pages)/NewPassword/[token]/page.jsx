@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Container, ContainerIntern, Form, FormGroup, Label, Input, ErrorBox, VideoBg, VideoBgColor, Title, Wrapper, Text, TextLink } from "./styles";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -27,6 +27,8 @@ const loginSchema = yup.object({
 export default function NewPassword() {
 
   const params = useParams();
+  const [responseData, setResponseData] = useState(null);
+  
 
   // Valida o ID vindo dos parâmetros
   const token = decodeURIComponent(params.token) ;
@@ -53,9 +55,25 @@ export default function NewPassword() {
 
     const response = await req(data) 
     
+    if (response.status === 200) {
+
+      setResponseData("Senha alterada con sucesso")
+
+      
+    } else if (response.status === 400) {
+
+      setResponseData("Senha inválida")
+
+      
+    } else {
+
+      setResponseData("Erro no servidor")
+
+      
+    }
+
     reset();
     
-
   };
 
 
@@ -73,11 +91,10 @@ export default function NewPassword() {
       }
     );
     
-    return response.data;
+    return response;
   } catch (error) {
-    console.error("Erro na requisição:", error);
-    alert("Erro na requisição:", error.message);
-    return [];
+    
+    return error.response;
   }
   };
   
@@ -136,6 +153,12 @@ render={({ field }) => (
           <Link href={`/Login`}>
               <TextLink>Login</TextLink>
           </Link>
+          {responseData ?
+                      (<pre>
+                        <TextRsponse>
+                          {responseData}
+                        </TextRsponse>
+                        </pre>) : (<p></p>)}
         </Form>
       </ContainerIntern>
     </Container>

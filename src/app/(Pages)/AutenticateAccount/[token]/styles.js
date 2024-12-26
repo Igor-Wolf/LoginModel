@@ -49,6 +49,9 @@ export const Title = styled.div`
   font-weight:600;
   color: rgb(21, 117, 9);
   margin-bottom: 1.5rem;
+  @media (max-width: 768px) {
+    text-align: center
+  }
 
 `
 export const Title2 = styled.div`
@@ -57,6 +60,10 @@ export const Title2 = styled.div`
   font-weight:600;
   color:red;
   margin-bottom: 1.5rem;
+
+  @media (max-width: 768px) {
+    text-align: center
+  }
 
 `
 

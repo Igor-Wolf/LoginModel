@@ -70,6 +70,15 @@ export const Text2 = styled.div`
 }
 
 `
+export const TextRsponse = styled.div`
+
+
+font-weight:600;
+  color: orange;
+  text-wrap: wrap;
+  text-align: center;
+  
+`
 
 export const TextLink = styled.div`
 

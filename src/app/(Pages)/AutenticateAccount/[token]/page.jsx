@@ -81,7 +81,7 @@ export default function AutenticateAccount() {
           <source src="/assets/quarto.mp4"></source>
       </VideoBg>
       <VideoBgColor></VideoBgColor>
-      {data ? <pre>
+      {data.status === 200 ? <pre>
 
       <ContainerIntern>
         <Title>Conta Autenticada</Title>        
@@ -93,7 +93,7 @@ export default function AutenticateAccount() {
         </Form>
       </ContainerIntern>
       </pre>: <ContainerIntern>
-        <Title2>Erro Conta não Autenticada</Title2>        
+        <Title2>Erro conta não autenticada</Title2>        
         
       </ContainerIntern>}
     </Container>
