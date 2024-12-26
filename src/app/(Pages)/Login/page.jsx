@@ -45,7 +45,6 @@ export default function Login() {
     const response = await req(data)
     localStorage.setItem("token", response)
     
-    alert(response)
     reset();
     router.push("/")
 
@@ -118,9 +117,19 @@ render={({ field }) => (
           </FormGroup>
           <Wrapper2>
             <RememberPass>
-
-              <input type="checkbox" name="remember" id="ok" />
-              <Text>Lembrar a senha?</Text>
+            <Controller
+      name="remember"
+      control={control}
+      defaultValue={false}  // Valor inicial da checkbox (desmarcada)
+      render={({ field }) => (
+        <input 
+          type="checkbox" 
+          id="ok" 
+          {...field}  // Registra a checkbox no formulário
+        />
+      )}
+    />
+    <Text>Lembrar a senha?</Text>
             </RememberPass>
               <Text2>|</Text2>
 
