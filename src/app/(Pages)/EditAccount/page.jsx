@@ -332,7 +332,7 @@ export default function EditAccount() {
            
           </FormGroup>
           <Button
-            title="Criar"
+            title="Confirmar"
             variant="secondary"
             type="submit"
             disabled={!isValid}
