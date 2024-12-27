@@ -28,7 +28,7 @@ import { format } from "date-fns";
 
 export default function MyAccount() {
   const [data, setData] = useState(null);
-  const [imageSrc, setImageSrc] = useState()
+  const [imageSrc, setImageSrc] = useState("/assets/defaultImage.jpg")
 
   const router = useRouter();
 
@@ -50,7 +50,11 @@ export default function MyAccount() {
         });
 
         setData(response.data);
-        setImageSrc(response.data.profilePictureUrl)
+
+        if(response.data.profilePictureUrl){
+          
+          setImageSrc(response.data.profilePictureUrl)
+        }
         if (response.status !== 200) {
           router.push("/Login");
         }
@@ -91,7 +95,7 @@ export default function MyAccount() {
               <Divisor></Divisor>
               <DataAccount>
                 <ImageWrapper>
-                    <ImageProfile src={imageSrc } onError={() => setImageSrc("https://images.unsplash.com/photo-1605899435973-ca2d1a8861cf?q=80&w=1035&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")}></ImageProfile>
+                    <ImageProfile src={imageSrc } onError={() => setImageSrc("/assets/defaultImage.jpg")}></ImageProfile>
 
                 </ImageWrapper>
 
