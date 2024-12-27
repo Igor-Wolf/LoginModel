@@ -55,7 +55,7 @@ export default function MyAccount() {
           router.push("/Login");
         }
       } catch (error) {
-        alert("Erro na requisição:", error);
+        console.log(error)
       }
     };
 

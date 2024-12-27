@@ -16,6 +16,7 @@ import {
   Text,
   TextLink,
   WrapperUser,
+  TextRsponse,
 } from "./styles";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -47,6 +48,8 @@ const loginSchema = yup
 
 export default function EditAccount() {
   const [data, setData] = useState(null);
+    const [responseData, setResponseData] = useState(null);
+  
 
   const router = useRouter();
 
@@ -145,12 +148,19 @@ export default function EditAccount() {
           }
         }
       );
-      alert(response.data.message);
+      if (response.status === 200) {
+       setResponseData("Dados atualizado com sucesso") 
+      }
       reset();
-      router.push("/MyAccount");
+      //router.push("/MyAccount");
     } catch (error) {
-      console.error("Erro na requisição:", error);
-      alert("Erro na requisição:", error.message);
+      
+      if (error.response.status === 409) {
+        setResponseData("Email já existente, tente novamente") 
+      } else {
+        setResponseData("Erro no servidor") 
+
+      }
     }
     
   };
@@ -329,7 +339,13 @@ export default function EditAccount() {
           />
           <Link href={`/MyAccount`}>
             <TextLink>Voltar</TextLink>
-          </Link>
+              </Link>
+              {responseData ?
+                                    (<pre>
+                                      <TextRsponse>
+                                        {responseData}
+                                      </TextRsponse>
+                                      </pre>) : (<p></p>)}
         </Form>
           </ContainerIntern>
           </pre>) : (<p>Carregando...</p>)}

@@ -31,7 +31,7 @@ export default function AutenticateAccount() {
   // Valida o ID vindo dos parâmetros
   const token = decodeURIComponent(params.token) ;
   
-  const [data, setData] = useState(null);
+  const [data, setData] = useState({status : 400});
 
    // ------------------------------------------------------Fazendo o request com as informações do formulário
 
@@ -67,11 +67,11 @@ export default function AutenticateAccount() {
       }
     );
     setData(response)
-    return response.data;
+   
   } catch (error) {
     console.error("Erro na requisição:", error);
-    alert("Erro na requisição:", error.message);
-    return [];
+    
+    
   }
   };
   

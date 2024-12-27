@@ -41,9 +41,10 @@ export default function Home() {
   }, []);  // Dependências vazias, para que seja executado apenas uma vez ao carregar o componente
 
   return (
-    <div>
+    <div style={{ paddingTop: "70px" }}>
       <h1>Olá mundo</h1>
-      {data ? <pre>{JSON.stringify(data, null, 2)}
+      {data ? <pre><p>
+      Bem vindo {data.user}</p>
       <Link href={`/MyAccount`}>
                 <Button title="Minha Conta" variant="secondary" type="submit" />
               </Link>
