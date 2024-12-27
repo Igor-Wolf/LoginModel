@@ -76,7 +76,6 @@ export default function EditAccount() {
     const auth = localStorage.getItem("token");
 
     if (!auth) {
-      alert("Token não encontrado");
       router.push("/Login");
       return;
     }

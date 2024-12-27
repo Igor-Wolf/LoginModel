@@ -36,7 +36,6 @@ export default function MyAccount() {
     const auth = localStorage.getItem("token");
 
     if (!auth) {
-      alert("Token não encontrado");
       router.push("/Login");
       return;
     }
@@ -75,7 +74,6 @@ export default function MyAccount() {
         router.push("/Login");
       }
     } catch (error) {
-      alert("Erro na requisição:", error);
     }
 
 
