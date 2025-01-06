@@ -59,6 +59,6 @@ O site completo pode ser acessado [aqui](https://login-model-one.vercel.app/).
 
 ## Organização dos Arquivos
 
-![Organização dos Arquivos](https://github.com/Igor-Wolf/FrontendMenu2.0/blob/main/demo.png?raw=true)
+![Organização dos Arquivos](https://github.com/Igor-Wolf/LoginModel/blob/main/Demo.png?raw=true)
 
 
